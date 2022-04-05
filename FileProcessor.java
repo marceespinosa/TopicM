@@ -2,7 +2,6 @@ package com_file.OO;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -35,19 +34,11 @@ public class FileProcessor
 				words.put(word, count);
 			}
 			file.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (FileNotFoundException e) 
+		{
 			e.printStackTrace();
-		} // will scan through the file 
+		}  
 		
-	}
-				
-	public static void main(String[] args) throws FileNotFoundException
-	{
-	Map<String,Integer> words=new HashMap<String, Integer>();
-	countwords("example1.txt",words);
-	countwords("example2.txt",words);
-	System.out.println(words);	
 	}
 
 
