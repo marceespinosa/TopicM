@@ -1,78 +1,70 @@
 package com_file.OO;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.HashSet;
+
 
 public class FileProcessor 
 {
-
-	//attributes for the files 
-//	File myFile;
-//	String line = "";
-//	private ArrayList<String> fileList = new ArrayList<String>();
-//	int carray[];
-//	private String filePath;
-//	private ArrayList<String> listOrdered = new ArrayList<String>();
-//	int orderedarray=0;
 	
-	@SuppressWarnings("unlikely-arg-type")
-	public static void readFile(String[] args) throws IOException
+	//method to count the words, uses a file name a map
+	public static void countwords (String filename, Map<String, Integer> words) 
 	{
-		//what file will be imported? ex1 ex2
-		File myFile = new File ("example1", "example2");
-		//will initialize arrays
-		String [] words = null;
-		//ArrayList<String> fileList = new ArrayList<String>();
-		//will create a file reader object 
-		FileReader readFile = new FileReader(myFile);
-		// will create the buffered reader object 
-		BufferedReader bufferReader = new BufferedReader(readFile);
-		String word;
-		//initialize a counter
-		int count = 0;
-		
-		
-		
-		//while loop to read the content of file
-		while((word = bufferReader.readLine())!=null)
-		{
-			//this will split the words
-			words = word.split("");
-		}
-		
-		for(String word2: words) 
-		{
-			if(word2.equals(words)) 
+		Scanner file;
+		try {
+			file = new Scanner (new File(filename));
+			while(file.hasNext()) // if the scanner has a next like or next word it will go thorough a loop and count the word 
 			{
-				count++;
-			}
-		}
-		
-		if(count!=0) 
-		{
-			System.out.print("the word is" + words+ "and its this many times" + count);
-		}
-		
-		bufferReader.close();
+				String word = file.next().toLowerCase();
+				Integer count = words.get(word);
+				if(count!=null)
+				{
+					count++;
+					
+				}
 				
+				else 
+				{
+					count = 1;
+					
+				
+				}
+				words.put(word, count);
+			}
+			file.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // will scan through the file 
+		
+	}
+				
+	public static void main(String[] args) throws FileNotFoundException
+	{
+	Map<String,Integer> words=new HashMap<String, Integer>();
+	countwords("example1.txt",words);
+	countwords("example2.txt",words);
+	System.out.println(words);	
 	}
 
 
-
-
-
-
-
-
-
-	
-	
+		
+		
 }
+
+	
+
+
+
+
+
+
+
+
+
+	
+	
+
