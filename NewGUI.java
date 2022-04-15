@@ -1,5 +1,6 @@
 package com_file.OO;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,11 +34,12 @@ public class NewGUI extends FileProcessor implements ActionListener
 	
 	public NewGUI(String Title)
 	{
+		JLabel label1 = new JLabel();
 		JFrame f1 = new JFrame("Text Opener and Word Counts");
 		f1.setVisible(true);
 		f1.setSize(500,500);
 		f1.setLayout(new FlowLayout());
-		
+		f1.setBackground(Color.black);
 		//adding the panels within the frame
 		panel1 = new JPanel();
 		f1.add(panel1);
@@ -57,7 +59,9 @@ public class NewGUI extends FileProcessor implements ActionListener
 		panel6 = new JPanel();
 		f1.add(panel6);
 		
-		
+		label1 = new JLabel();
+		f1.add(label1);
+		label1.setBackground(Color.blue);
 		
 		//creating and adding the buttons 
 		button1 = new JButton();
@@ -67,11 +71,21 @@ public class NewGUI extends FileProcessor implements ActionListener
 		button5 = new JButton();
 		button6 = new JButton();
 		
+		//	Setting thr backgroung color for every button 
+		button1.setBackground(Color.CYAN);
+		button2.setBackground(Color.GREEN);
+		button3.setBackground(Color.MAGENTA);
+		button4.setBackground(Color.ORANGE);
+		button5.setBackground(Color.RED);
+		button6.setBackground(Color.yellow);
+		
+		
 		//adding the buttons and information 
 		panel2.add(button1);
 		button1.setText(" First File");
 		button1.setToolTipText("Please select a file");
 		button1.addActionListener(this);
+		panel2.setBackground(Color.BLACK);
 		
 		panel2.add(button2);
 		button2.setText("Second File");
@@ -80,32 +94,39 @@ public class NewGUI extends FileProcessor implements ActionListener
 		
 		topwords = new JTextField("Please enter the amount of top words desired");
 		panel3.add(topwords);
-		
-		stopwords = new JTextField("Please add a Stop Word");
-		panel4.add(stopwords);
-		
+		panel3.setBackground(Color.BLUE);//set the color for the panel
 		
 		panel3.add(button3);
-		button3.setText("Stop word");
-		button3.setToolTipText("enter a stop word");
+		button3.setText("Top words");
+		button3.setToolTipText("Stop Enter");
 		button3.addActionListener(this);
+		
+		
+		stopwords = new JTextField("Please enter a Stop Word");
+		panel4.add(stopwords);
+		panel4.setBackground(Color.GRAY);//set the color for the panel
+		
+		
+
 		
 		panel5.add(button4);
 		button4.setText("Start");
 		button4.setToolTipText("Save and run");
 		button4.addActionListener(this);
-		
+		panel5.setBackground(Color.ORANGE);//set the color for the panel
 		
 		panel3.add(button5);
-		button5.setText("Please enter a word");
+		button5.setText("Stop Word Enter");
 		button5.setToolTipText("Amount of Top Words");
 		button5.addActionListener(this);
 		
 		
 		panel6.add(button6);
-		button6.setText("click to show the top words");
+		button6.setText(" Show the top words");
 		button6.setToolTipText("Select and see the top words and the number of repetition");
 		button6.addActionListener(this);
+		panel6.setBackground(Color.YELLOW);//set the color for the panel
+		
 		
 	}
 	
@@ -113,14 +134,11 @@ public class NewGUI extends FileProcessor implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == button1)
-		{
-			JFileChooser chooseFile = new JFileChooser();
-			int open = chooseFile.showOpenDialog(null); //select the file to open and variable to record if file was opened or cancelled action 
-			
-			if (open == JFileChooser.APPROVE_OPTION)
+		{ 
+			if (file.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 			{
-				File file = new File(chooseFile.getSelectedFile().getAbsolutePath());
-				System.out.println(file);//will print out the file location
+				java.io.File f2 = file.getSelectedFile();
+				System.out.println(f2.getPath());//will print out the file location
 				
 			
 			}//END NESTED IF
@@ -128,13 +146,11 @@ public class NewGUI extends FileProcessor implements ActionListener
 		
 		else if(e.getSource() == button2)
 		{
-			JFileChooser chooseFile = new JFileChooser();
-			int open = chooseFile.showOpenDialog(null); //select the file to open and variable to record if file was opened or cancelled action 
 			
-			if (open == JFileChooser.APPROVE_OPTION)
+			if (file2.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 			{
-				File file2 = new File(chooseFile.getSelectedFile().getAbsolutePath());
-				System.out.println(file2);//will print out the file location
+				java.io.File f1 = file2.getSelectedFile();
+				System.out.println(f1);//will print out the file location
 			}//end nested if
 		}//end else if
 	
@@ -156,21 +172,21 @@ public class NewGUI extends FileProcessor implements ActionListener
 			fc2.readwords(f1.getPath(), n);
 			
 			//System.out.println(f2);
-			System.out.print(f1);
+			//System.out.print(f1);
 			
 			
 			if(input == 0)
 			{
 				if(num == 1 )
 				{
-					similarity = correctcounter*100/tempWordlist.size();
+					similarity = wordcounter*100/tempAllWords.size();
 					if(counter != 0)
 					{
 						similarity = similarity-100;
 						
 					}//end if
 					
-					if(similarity > 50)
+					if(similarity > 45)
 					{
 						JOptionPane.showMessageDialog(button4,similarity+"chance of being the same topic");
 					}
@@ -181,7 +197,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 					}//end else
 					
 					similarity = 0;
-					correctcounter = 0;
+					wordcounter = 0;
 				}// end of nested if 
 				
 				startbutton = 0;
@@ -189,14 +205,14 @@ public class NewGUI extends FileProcessor implements ActionListener
 			
 			else
 			{
-				JOptionPane.showMessageDialog(button4,"Please enter a valid number");
+				JOptionPane.showMessageDialog(button4,"Please enter a valid number!");
 			}//end else
 			
 			
 			if(counter == 0)
 			{
 				num = 0;
-				correctcounter = 0;
+				wordcounter = 0;
 				similarity = 0;
 				
 			}//end if
@@ -211,7 +227,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 		{
 			if(topwords.getText().isEmpty())
 			{
-				JOptionPane.showMessageDialog(button5,"Please eneter a number");
+				JOptionPane.showMessageDialog(button5,"Please enter a number");
 				
 			}
 			
@@ -219,6 +235,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 			{
 				temp = topwords.getText();
 				n = Integer.parseInt(temp);
+				input = 0;
 			}
 		}
 		
@@ -230,11 +247,11 @@ public class NewGUI extends FileProcessor implements ActionListener
 			FileProcessor file1 = new FileProcessor();
 			FileProcessor file2 = new FileProcessor();
 			
+			file1.readwords(f1.getPath(), n);
 			file2.readwords(f2.getPath(), n);
-			file2.readwords(f1.getPath(), n);
 			
-			System.out.println(f2);
-			System.out.print(f1);
+		//	System.out.println(f2);
+		//	System.out.print(f1);
 			
 		
 			
@@ -251,15 +268,10 @@ public class NewGUI extends FileProcessor implements ActionListener
 			}
 			
 			similarity = 0;
-			correctcounter = 0;
+			wordcounter = 0;
 		
 		}
 		
-		
-		else 
-		{
-			System.out.print("Succesfully terminated");
-		}
 		
 	}//END ACTION PERFORMED
 }//END CLASS

@@ -15,11 +15,11 @@ import javax.swing.JFileChooser;
 public class FileProcessor 
 {
 	static int num =0;
-	static HashMap<String,Integer> tempWordlist = new HashMap<String, Integer>();
+	static HashMap<String,Integer> tempAllWords = new HashMap<String, Integer>();
 	HashMap<String,Integer> Words = new HashMap<String, Integer>(); 
 	ArrayList<String> Words_2 = new ArrayList<String>();
 	static ArrayList<String> StopWords_2 = new ArrayList<String>();
-	static int correctcounter=0;
+	static int wordcounter=0;
 	final JFileChooser fc1 = new JFileChooser();
 	final JFileChooser fc2 = new JFileChooser();
 	double similarity = 0;
@@ -32,12 +32,12 @@ public class FileProcessor
 		    try (LineNumberReader read = new LineNumberReader(new FileReader(filename))) 
 		    {
 		        String line;
-		        LineNumberReader b = new LineNumberReader(new FileReader("StopWords.txt"));
+		        LineNumberReader nb = new LineNumberReader(new FileReader("StopWords"));
 		        String line2;
 		        
 		        
 		        // While loop to read the StopWords file and it will store them into the array
-		        while ((line2 = b.readLine()) != null)
+		        while ((line2 = nb.readLine()) != null)
 		        {
 		            for (String stop : line2.toLowerCase().split(" ")) {
 		            	StopWords_2.add(stop);
@@ -78,14 +78,14 @@ public class FileProcessor
 	            //this for loop will check if the scans and the words are the same and count the repetition
 	            for (String scan: Words.keySet())
 	            {
-	                if (tempWordlist.containsKey(scan)) 
+	                if (tempAllWords.containsKey(scan)) 
 	            	{ 
 	            		
-	            		//if there is a scan
-	            		if (tempWordlist.containsValue(Words.get(scan))) 
+	            		//when scanned the words it will count the repetition of the words
+	            		if (tempAllWords.containsValue(Words.get(scan))) 
 		            	{ 
 		            	       //it will count the repetition 
-		            			correctcounter++;
+		            			wordcounter++;
 		            			
 		            	} //end nested if
 	            	} //end nested if
@@ -97,7 +97,7 @@ public class FileProcessor
 	            if(num == 0)
 	     		{
 	              
-			    	tempWordlist.putAll(Words);
+			    	tempAllWords.putAll(Words);
 	 			    num =1;
 	     		}   
 		
@@ -112,7 +112,7 @@ public class FileProcessor
 	}
 	
 	
-	//this will display the hashmap 
+	//this will display the hashmap or the words and their count 
 	public void hashmap(int n) {
 		
 	
