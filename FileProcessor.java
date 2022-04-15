@@ -22,96 +22,85 @@ public class FileProcessor
 	static int correctcounter=0;
 	final JFileChooser fc1 = new JFileChooser();
 	final JFileChooser fc2 = new JFileChooser();
-	double percentage = 0;
+	double similarity = 0;
+	
+	
 	public  void readwords(String filename, int n) 
 	{
 		
 		        
-		    try (LineNumberReader r = new LineNumberReader(new FileReader(filename))) {
+		    try (LineNumberReader read = new LineNumberReader(new FileReader(filename))) 
+		    {
 		        String line;
 		        LineNumberReader b = new LineNumberReader(new FileReader("StopWords.txt"));
-		        String line1;
-		        //read the stopwords.txt file line by line and add them to a array list
-		        while ((line1 = b.readLine()) != null)
+		        String line2;
+		        
+		        
+		        // While loop to read the StopWords file and it will store them into the array
+		        while ((line2 = b.readLine()) != null)
 		        {
-		            for (String element1 : line1.toLowerCase().split(" ")) {
-		            	StopWords.add(element1);
+		            for (String stop : line2.toLowerCase().split(" ")) {
+		            	StopWords_2.add(stop);
 		            }//end for
 		                	
 		                
 		        }//end while
 		        
-		        //Read the file word by word and line by line 
-		        //Then only adding the word to the arraylist if it isn't inside the stopwords list
+		       //while loop will read the words from the text file and if a stop word is in there then 
+		        // it will not store it in the array list for words
 		       
-		        while ((line = r.readLine()) != null) {
-		            for (String element : line.toLowerCase().split(" ")) {
-		            	if(StopWords.contains(element))
+		        while ((line = read.readLine()) != null) {
+		            for (String filewords : line.toLowerCase().split(" ")) {
+		            	if(StopWords_2.contains(filewords))
 		            	{
 		            		
 		            	}//end if	
 		            	else 
 		            	{
-		            		Words_2.add(element);
+		            		Words_2.add(filewords);
 		            	}//end else
-		                
-		      
+
 		            }//end for
 		            
 		        } //end while 
-		 
-		            
-		            
-		        //Using a newly made hashset and putting the values scanned from the file into a hashset
-		        //Which is used to eliminate duplicates
+ 
+		       
+		        //A new created HashSet to input the values that had been read/scanned from the file
 		        Set<String> unique = new HashSet<String>(Words_2);
 		       
-		        //Scans through the array list of words and for every word in the hashset 
-		        //Checks how many times it appears and puts both the word and the fequency of the word into a Hashmap
-	            for(String key: unique) 
+		        // a for loop will scan through the list of words within the hash set and it willhave a counter for how many times its int the textfile
+	            for(String scan: unique) 
 	            {   
-	            	Words.put(key,Collections.frequency(Words_2, key));
-			        
-			       
+	            	Words.put(scan,Collections.frequency(Words_2, scan));
 			        
 			    }  //end for
 	           
-	            
-	            
-	            //check to see if the words and keys are the same or not
-	            //and count the amount of times this happens
-	            for (String key: Words.keySet())
+	            //this for loop will check if the scans and the words are the same and count the repetition
+	            for (String scan: Words.keySet())
 	            {
-	                if (tempWordlist.containsKey(key)) 
+	                if (tempWordlist.containsKey(scan)) 
 	            	{ 
 	            		
-	            		// Okay, there's a key 
-	            		if (tempWordlist.containsValue(Words.get(key))) 
+	            		//if there is a scan
+	            		if (tempWordlist.containsValue(Words.get(scan))) 
 		            	{ 
-		            	       // Okay, there's a value 
+		            	       //it will count the repetition 
 		            			correctcounter++;
 		            			
-		            	} //end if
-	            	} //end if
+		            	} //end nested if
+	            	} //end nested if
 	            	
 	            }//end for
 	            
-	            //creates and prints out the probability of being the same file
 	          
-	            //Stores the first files values and key into a new hashmap to be compared later 	
+	          // in here it will compare the two files and display how likely they are to be the same or the similarity
 	            if(num == 0)
 	     		{
 	              
 			    	tempWordlist.putAll(Words);
 	 			    num =1;
-	     		}
-	            	
-	           
-	           
-			       
-			       
-			        
-			    
+	     		}   
+		
  
 	
 		    }//end try 
@@ -121,18 +110,21 @@ public class FileProcessor
 			}//end catch
 		   	    
 	}
-	//Method used to print the hashmap with the word and the count displayed nicely
-	public void printhashmap(int n) {
+	
+	
+	//this will display the hashmap 
+	public void hashmap(int n) {
 		
 	
 		Words.entrySet().stream()
     	.sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(n)
     	.forEach(x -> 
-    	{
-    		System.out.println(x.getKey() + " Count is "+ x.getValue());
+    		{
+    			System.out.println(x.getKey() + " Count is "+ x.getValue());
     		
     		
-    	});
-		System.out.println("\n");
+    		}
+    		);
+	
 	}
 }

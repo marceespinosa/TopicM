@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 public class NewGUI extends FileProcessor implements ActionListener
 {	
+	//attributes for the code
 	JLabel label1;
 	JButton button1, button2, button3, button4, button5, button6;
 	JPanel panel1, panel2, panel3, panel4, panel5, panel6;
@@ -25,9 +26,10 @@ public class NewGUI extends FileProcessor implements ActionListener
 	private int n;
 	private String temp;
 	static int counter = 0;
-	
 	static int input =1; 
-	static int checkbutton4 =1;
+	static int startbutton =1;
+	
+	
 	
 	public NewGUI(String Title)
 	{
@@ -36,7 +38,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 		f1.setSize(500,500);
 		f1.setLayout(new FlowLayout());
 		
-		
+		//adding the panels within the frame
 		panel1 = new JPanel();
 		f1.add(panel1);
 		
@@ -57,7 +59,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 		
 		
 		
-		
+		//creating and adding the buttons 
 		button1 = new JButton();
 		button2 = new JButton();
 		button3 = new JButton();
@@ -65,7 +67,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 		button5 = new JButton();
 		button6 = new JButton();
 		
-		
+		//adding the buttons and information 
 		panel2.add(button1);
 		button1.setText(" First File");
 		button1.setToolTipText("Please select a file");
@@ -83,7 +85,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 		panel4.add(stopwords);
 		
 		
-		panel4.add(button3);
+		panel3.add(button3);
 		button3.setText("Stop word");
 		button3.setToolTipText("enter a stop word");
 		button3.addActionListener(this);
@@ -147,13 +149,13 @@ public class NewGUI extends FileProcessor implements ActionListener
 			java.io.File f1 = file.getSelectedFile();
 			java.io.File f2 = file2.getSelectedFile();
 			
-			FileProcessor file1 = new FileProcessor();
-			FileProcessor file2 = new FileProcessor();
+			FileProcessor fc1 = new FileProcessor();
+			FileProcessor fc2 = new FileProcessor();
 			
-			file1.readwords(f2.getAbsolutePath(), n);
-			file2.readwords(f1.getAbsolutePath(), n);
+			fc1.readwords(f2.getPath(), n);
+			fc2.readwords(f1.getPath(), n);
 			
-			System.out.println(f2);
+			//System.out.println(f2);
 			System.out.print(f1);
 			
 			
@@ -161,28 +163,28 @@ public class NewGUI extends FileProcessor implements ActionListener
 			{
 				if(num == 1 )
 				{
-					percentage = correctcounter*100/tempWordlist.size();
+					similarity = correctcounter*100/tempWordlist.size();
 					if(counter != 0)
 					{
-						percentage = percentage-100;
+						similarity = similarity-100;
 						
 					}//end if
 					
-					if(percentage > 50)
+					if(similarity > 50)
 					{
-						JOptionPane.showMessageDialog(button4,percentage+"chance of being the same topic");
+						JOptionPane.showMessageDialog(button4,similarity+"chance of being the same topic");
 					}
 					
 					else
 					{
-						JOptionPane.showMessageDialog(button4,percentage+"chance of being different topic");
+						JOptionPane.showMessageDialog(button4,similarity+"chance of being different topic");
 					}//end else
 					
-					percentage = 0;
+					similarity = 0;
 					correctcounter = 0;
 				}// end of nested if 
 				
-				checkbutton4 = 0;
+				startbutton = 0;
 			}// end of if 
 			
 			else
@@ -195,7 +197,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 			{
 				num = 0;
 				correctcounter = 0;
-				percentage = 0;
+				similarity = 0;
 				
 			}//end if
 			
@@ -228,18 +230,18 @@ public class NewGUI extends FileProcessor implements ActionListener
 			FileProcessor file1 = new FileProcessor();
 			FileProcessor file2 = new FileProcessor();
 			
-			file1.readwords(f2.getAbsolutePath(), n);
-			file2.readwords(f1.getAbsolutePath(), n);
+			file2.readwords(f2.getPath(), n);
+			file2.readwords(f1.getPath(), n);
 			
 			System.out.println(f2);
 			System.out.print(f1);
 			
 		
 			
-			if(checkbutton4 == 0)
+			if(startbutton == 0)
 			{
-				file1.printhashmap(n);
-				file2.printhashmap(n);
+				file1.hashmap(n);
+				file2.hashmap(n);
 				
 			}//end if
 			
@@ -248,7 +250,7 @@ public class NewGUI extends FileProcessor implements ActionListener
 				JOptionPane.showMessageDialog(button4, "Please follow all instructions and input the righ data");
 			}
 			
-			percentage = 0;
+			similarity = 0;
 			correctcounter = 0;
 		
 		}
